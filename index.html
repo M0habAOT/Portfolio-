@@ -180,7 +180,7 @@
         margin: 0 0 1.4rem;
         max-width: 17rem;
         color: var(--muted);
-        font-size: 1.3rem;
+        font-size: 1.5rem;
       }
       .pill {
         display: inline-block;
@@ -208,7 +208,7 @@
       .avail b {
         display: block;
         font-weight: 600;
-        font-size: 2.4rem;
+        font-size: 5rem;
         letter-spacing: 0;
         line-height: 0.95;
         text-transform: uppercase;
@@ -1500,7 +1500,7 @@
             const textWidth = fit.getBoundingClientRect().width;
             const availableWidth = name.clientWidth;
             if (textWidth > 0 && availableWidth > 0) {
-              fit.style.fontSize = `${((90 * availableWidth) / textWidth) * 0.96}px`;
+              fit.style.fontSize = `${((100 * availableWidth) / textWidth) * 0.96}px`;
             }
           }
 
