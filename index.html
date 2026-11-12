@@ -27,7 +27,7 @@
         --sans:
           "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
         --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-        --pad: 1.5rem;
+        --pad: 2.5rem;
       }
       * {
         box-sizing: border-box;
@@ -85,7 +85,7 @@
         position: sticky;
         top: 0;
         min-height: 100svh;
-        padding: 1.25rem var(--pad) 1.75rem;
+        padding: 1.6rem var(--pad) 1.75rem;
         display: flex;
         flex-direction: column;
       }
@@ -99,7 +99,7 @@
         display: flex;
         justify-content: space-between;
         gap: 1rem;
-        font-size: 0.9rem;
+        font-size: 1.25rem;
         color: var(--muted);
       }
       .hero-top nav {
@@ -108,7 +108,6 @@
       }
       .hero-top a {
         text-decoration: none;
-        color: var(--ink);
         position: relative;
       }
       .hero-top nav a::after {
@@ -1502,7 +1501,7 @@
           });
 
           function fitToWidth() {
-            fit.style.fontSize = "100px";
+            fit.style.fontSize = "98px";
             const textWidth = fit.getBoundingClientRect().width;
             const availableWidth = name.clientWidth;
             if (textWidth > 0 && availableWidth > 0) {
