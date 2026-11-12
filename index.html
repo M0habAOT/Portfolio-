@@ -274,16 +274,16 @@
         transition: transform 0.35s;
       }
       .menu-btn[aria-expanded="true"] i:first-child {
-        transform: translateY(3px) rotate(45deg);
+        transform: translateY(2.125px) rotate(45deg);
       }
       .menu-btn[aria-expanded="true"] i:last-child {
-        transform: translateY(-3px) rotate(-45deg);
+        transform: translateY(-2.125px) rotate(-45deg);
       }
       .menu {
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: var(--black);
+        background-color:rgba(0, 0, 0, 0.75);
         color: var(--bone);
         display: flex;
         flex-direction: column;
@@ -298,6 +298,8 @@
       .menu.open {
         visibility: visible;
         opacity: 1;
+        background-color:rgba(0, 0, 0, 0.75);
+        backdrop-filter:blur(10px);
       }
       .menu a {
         display: block;
@@ -814,7 +816,7 @@
           gap: 1.5rem;
         }
         .name {
-          font-size: 4rem;
+          font-size: 3.5rem;
         }
         .sec-top .big {
           font-size: 3.5rem;
@@ -1498,7 +1500,7 @@
             const textWidth = fit.getBoundingClientRect().width;
             const availableWidth = name.clientWidth;
             if (textWidth > 0 && availableWidth > 0) {
-              fit.style.fontSize = `${((100 * availableWidth) / textWidth) * 0.96}px`;
+              fit.style.fontSize = `${((90 * availableWidth) / textWidth) * 0.96}px`;
             }
           }
 
