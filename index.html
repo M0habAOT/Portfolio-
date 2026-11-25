@@ -157,9 +157,7 @@
       }
       .js .ch {
         display: inline-block;
-        transform: translateY(108%);
-        animation: up 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        animation-delay: calc(var(--i) * 0.06s + 0.15s);
+        transform: none;
       }
       @keyframes up {
         to {
@@ -196,15 +194,50 @@
         }
       }
       .hero-top {
-        animation: fade 1.6s 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation: none;
+      }
+      /* page-load curtain: a cream sheet with a curved top rises over black */
+      .curtain {
+        display: none;
+      }
+      .js .curtain {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: #0a0a0a;
+        pointer-events: none;
+        overflow: hidden;
+        animation: curtainOff 0.01s 1.5s forwards;
+      }
+      .curtain i {
+        position: absolute;
+        left: -10%;
+        right: -10%;
+        bottom: 0;
+        height: 130%;
+        background: var(--paper);
+        border-radius: 50% 50% 0 0 / 14% 14% 0 0;
+        transform: translateY(100%);
+        animation: sheet 1.35s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s forwards;
+      }
+      @keyframes sheet {
+        to {
+          transform: translateY(0);
+          border-radius: 0;
+        }
+      }
+      @keyframes curtainOff {
+        to {
+          visibility: hidden;
+        }
       }
       .hero-sub {
-        animation: rise 1.6s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation: none;
       }
       .hero-l > *,
       .avail {
-        animation: rise 1.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-        animation-delay: calc(0.55s + var(--k, 0) * 0.12s);
+        animation: none;
       }
       .hero-l > :nth-child(2) { --k: 1; }
       .hero-l > :nth-child(3) { --k: 2; }
@@ -646,7 +679,8 @@
         z-index: 2;
         background: var(--black);
         color: var(--bone);
-        border-radius: 2rem 2rem 1.5rem 1.5rem;
+        border-radius: 2rem 2rem 0 0;
+        background: linear-gradient(var(--black), var(--black)) top / 100% calc(100% - 3rem) no-repeat;
         margin-bottom: 0;
       }
       .js .reveal {
@@ -1120,8 +1154,8 @@
         position: relative;
         z-index: 1;
         background: var(--paper);
-        margin-top: -2rem;
-        padding: 5.5rem var(--pad) 1.5rem;
+        margin-top: -3rem;
+        padding: 6.5rem var(--pad) 1.5rem;
       }
       .foot-grid {
         display: grid;
@@ -1334,7 +1368,7 @@
           font-size: 4.25rem;
         }
         .dark {
-          border-radius: 1.25rem 1.25rem 1rem 1rem;
+          border-radius: 1.25rem 1.25rem 0 0;
           margin-bottom: 0;
         }
         .services {
@@ -1342,6 +1376,10 @@
         }
         .works {
           padding: 3.25rem 0 0;
+        }
+        .sec-top h2.big {
+          font-size: clamp(1.8rem, 9.2vw, 2.5rem);
+          white-space: nowrap;
         }
         .sec-top .big,
         .contact .big {
@@ -1411,6 +1449,7 @@
           margin-top: 2rem;
         }
         .contact {
+          border-radius: 0 0 1rem 1rem;
           padding: 3.5rem var(--pad) 2rem;
         }
         .card {
@@ -1418,7 +1457,7 @@
           margin-top: 1.75rem;
         }
         .foot {
-          padding: 4.5rem var(--pad) 1rem;
+          padding: 5.5rem var(--pad) 1rem;
         }
         .foot-grid {
           grid-template-columns: 1fr 1fr;
@@ -1444,6 +1483,9 @@
           animation: none !important;
           transition: none !important;
         }
+        .curtain {
+          display: none !important;
+        }
         .js .ch {
           transform: none;
         }
@@ -1468,6 +1510,7 @@
     >
       <span><i></i><i></i></span>
     </button>
+    <div class="curtain" aria-hidden="true"><i></i></div>
     <div class="menu" id="menu" role="dialog" aria-label="Menu">
       <div class="menu-circle" aria-hidden="true"></div>
       <div class="menu-in">
@@ -1886,6 +1929,17 @@
         >
           <h3>Have a project or a role in mind?</h3>
           <div class="field">
+            <label class="sr" for="name">Your name</label
+            ><input
+              id="name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              placeholder="Your name"
+            />
+          </div>
+          <div class="field">
             <label class="sr" for="email">Your email</label
             ><input
               id="email"
@@ -2281,6 +2335,26 @@
                 : "smooth",
             });
           });
+          // Phones: section links land a little above the title so the menu
+          // button does not cover it.
+          document.addEventListener("click", (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('a[href^="#"]');
+            if (!link) return;
+            const id = link.getAttribute("href").slice(1);
+            if (!id || id === "top") return;
+            const target = document.getElementById(id);
+            if (!target || !window.matchMedia("(max-width: 860px)").matches)
+              return;
+            event.preventDefault();
+            setOpen(false);
+            window.requestAnimationFrame(() => {
+              window.scrollTo({
+                top: target.getBoundingClientRect().top + window.scrollY - 44,
+                behavior: prefersReducedMotion ? "instant" : "smooth",
+              });
+            });
+          });
         }
 
         function setupReveals() {
@@ -2346,16 +2420,24 @@
             event.preventDefault();
             if (form.elements.namedItem("_honey")?.value) return;
 
+            const nameField = form.elements.namedItem("name");
             const emailField = form.elements.namedItem("email");
             const messageField = form.elements.namedItem("message");
             if (
+              !(nameField instanceof HTMLInputElement) ||
               !(emailField instanceof HTMLInputElement) ||
               !(messageField instanceof HTMLTextAreaElement)
             )
               return;
 
+            const name = nameField.value.trim();
             const email = emailField.value.trim();
             const message = messageField.value.trim();
+            if (name.length < 2) {
+              showMessage("Please enter your name.", "err");
+              nameField.focus();
+              return;
+            }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
               showMessage("Please enter a valid email address.", "err");
               emailField.focus();
@@ -2378,6 +2460,7 @@
                   Accept: "application/json",
                 },
                 body: JSON.stringify({
+                  name,
                   email,
                   message,
                   _subject: "New message from your portfolio",
@@ -2467,4 +2550,4 @@
       })();
     </script>
   </body>
-</html>
+  </html>
