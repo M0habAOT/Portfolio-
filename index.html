@@ -196,7 +196,8 @@
       .hero-top {
         animation: none;
       }
-      /* page-load curtain: a cream sheet with a curved top rises over black */
+      /* page-load curtain: a black sheet with a curved bottom edge lifts up
+         and the real page is already underneath (no other background) */
       .curtain {
         display: none;
       }
@@ -205,26 +206,24 @@
         position: fixed;
         inset: 0;
         z-index: 200;
-        background: #0a0a0a;
         pointer-events: none;
         overflow: hidden;
-        animation: curtainOff 0.01s 1.5s forwards;
+        animation: curtainOff 0.01s 1.15s forwards;
       }
       .curtain i {
         position: absolute;
         left: -10%;
         right: -10%;
-        bottom: 0;
-        height: 130%;
-        background: var(--paper);
-        border-radius: 50% 50% 0 0 / 14% 14% 0 0;
-        transform: translateY(100%);
-        animation: sheet 1.35s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s forwards;
+        top: 0;
+        height: 118%;
+        background: #0a0a0a;
+        border-radius: 0 0 50% 50% / 0 0 12% 12%;
+        transform: translateY(0);
+        animation: lift 1.05s cubic-bezier(0.25, 0.8, 0.25, 1) 0.05s forwards;
       }
-      @keyframes sheet {
+      @keyframes lift {
         to {
-          transform: translateY(0);
-          border-radius: 0;
+          transform: translateY(-120%);
         }
       }
       @keyframes curtainOff {
@@ -2550,4 +2549,4 @@
       })();
     </script>
   </body>
-  </html>
+</html>
