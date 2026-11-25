@@ -13,7 +13,14 @@
     <meta property="og:title" content="Mohab Ahmed – Frontend Developer" />
     <meta property="og:description" content="Portfolio of Mohab Ahmed Abdelmonem, a Computer Science student and frontend developer in Cairo, Egypt. Open to internships and full-time or part-time jobs." />
     <meta property="og:url" content="https://mohab-ahmed-resume.vercel.app/" />
-    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://mohab-ahmed-resume.vercel.app/" />
+    <meta property="og:image" content="https://mohab-ahmed-resume.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mohab Ahmed, Frontend Developer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mohab Ahmed – Frontend Developer" />
+    <meta name="twitter:image" content="https://mohab-ahmed-resume.vercel.app/og-image.png" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23e7e7e2'%3EMA%3C/text%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,7 +32,7 @@
       :root {
         --paper: #e7e7e2;
         --ink: #121212;
-        --muted: #6b6b66;
+        --muted: #55554f;
         --black: #090909;
         --bone: #dcdcd6;
         --dim: #8a8a84;
@@ -90,7 +97,7 @@
       .hero {
         position: sticky;
         top: 0;
-        min-height: 100svh;
+        min-height: min(100svh, 46rem);
         padding: 1.6rem var(--pad) 1.75rem;
         display: flex;
         flex-direction: column;
@@ -177,7 +184,14 @@
         }
       }
       .hero-l{
-        margin-bottom:4rem;
+        margin-bottom:2.5rem;
+      }
+      .hero-sub {
+        margin: 1.4rem 0 0;
+        text-align: center;
+        color: var(--muted);
+        font: 400 0.95rem var(--mono);
+        letter-spacing: 0.02em;
       }
       .hero-l svg {
         display: block;
@@ -505,6 +519,44 @@
         color: var(--dim);
         max-width: 30rem;
         font-size: 0.98rem;
+      }
+      .info .detail {
+        margin: 0 0 1rem;
+        padding-left: 0.9rem;
+        border-left: 2px solid #55554f;
+        color: var(--dim);
+        max-width: 30rem;
+        font-size: 0.9rem;
+      }
+      .info .detail b {
+        color: var(--bone);
+        font-weight: 500;
+      }
+      .results {
+        width: 100%;
+        max-width: 30rem;
+        margin: 0 0 1rem;
+        border-collapse: collapse;
+        font: 400 0.8rem var(--mono);
+        color: var(--dim);
+      }
+      .results caption {
+        text-align: left;
+        padding-bottom: 0.4rem;
+        color: var(--bone);
+      }
+      .results th,
+      .results td {
+        text-align: left;
+        padding: 0.4rem 0.5rem 0.4rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .results th {
+        font-weight: 400;
+        color: var(--dim);
+      }
+      .results td:first-child {
+        color: var(--bone);
       }
       .pills {
         display: flex;
@@ -928,6 +980,10 @@
         .tagline {
           font-size: 1rem;
         }
+        .hero-sub {
+          font-size: 0.78rem;
+          margin-top: 0.9rem;
+        }
         .avail b {
           font-size: 1.75rem;
         }
@@ -1087,6 +1143,7 @@
         <h1 class="name" id="name" aria-label="Mohab Ahmed">
           <span class="fit">Mohab Ahmed</span>
         </h1>
+        <p class="hero-sub">React · TypeScript · Bootstrap · Cairo, Egypt</p>
 
       
         <div class="hero-row">
@@ -1215,6 +1272,13 @@
                   A responsive hotel site where people can browse rooms and make
                   bookings online.
                 </p>
+                <p class="detail">
+                  <b>What I did:</b> built every page with HTML, CSS, Bootstrap
+                  and JavaScript: a search bar for dates and guests, room and
+                  food sections, and a photo gallery with a full-screen viewer.
+                  <b>Next:</b> a real booking backend. The booking form is
+                  front-end only for now.
+                </p>
                 <div class="links">
                   <a
                     href="https://m0habaot.github.io/Rezort/pages"
@@ -1263,6 +1327,13 @@
                   Search any city to see current weather, the daily forecast, a
                   5-day forecast, and the local time and date.
                 </p>
+                <p class="detail">
+                  <b>What I did:</b> fetch live data from the OpenWeatherMap API
+                  with async/await, show a loading screen and an error message
+                  for unknown cities, and change the background by weather and
+                  time of day. <b>Learned:</b> handling API responses and
+                  failures cleanly.
+                </p>
                 <div class="links">
                   <a
                     href="https://m0habaot.github.io/Weather-App"
@@ -1294,6 +1365,41 @@
                 A model that predicts income level from census data. I cleaned,
                 encoded and scaled the data, handled outliers, then trained and
                 compared Logistic Regression, SVM and Decision Tree models.
+              </p>
+              <table class="results">
+                <caption>
+                  Test set, 16,276 rows
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Model</th>
+                    <th scope="col">Accuracy</th>
+                    <th scope="col">F1 (&gt;50K)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Logistic Regression</td>
+                    <td>83.8%</td>
+                    <td>0.62</td>
+                  </tr>
+                  <tr>
+                    <td>SVM (RBF)</td>
+                    <td>83.7%</td>
+                    <td>0.61</td>
+                  </tr>
+                  <tr>
+                    <td>Decision Tree (GridSearchCV)</td>
+                    <td>83.5%</td>
+                    <td>0.63</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="detail">
+                <b>What I did:</b> tuned the C value and tree depth, and saved
+                the encoders and scaler so new data is processed the same way.
+                <b>Learned:</b> the data is imbalanced, so all three models find
+                only about 54 to 59 percent of the high-income cases.
               </p>
               <div class="links">
                 <a
