@@ -442,30 +442,32 @@
         transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
       }
       .menu-circle {
-        width: 42vw;
-        height: 42vw;
-        right: -23.5vw;
+        width: 44vw;
+        height: 44vw;
+        right: -25vw;
         top: -19vw;
-        background: #3a3a37;
+        background: #31312e;
+        transition-delay: 0s;
       }
       .menu-circle::before {
         content: "";
-        width: 118%;
-        height: 118%;
-        left: -9%;
-        top: -2%;
-        background: #262624;
-        z-index: -1;
-        transition-delay: 0.05s;
+        width: 86%;
+        height: 86%;
+        left: 0;
+        top: 0;
+        background: #46463f;
+        transition-delay: 0s;
       }
       .menu.open .menu-circle,
       .menu.open .menu-circle::before {
         transform: scale(1);
         transition-duration: 0.9s;
+      }
+      .menu.open .menu-circle {
         transition-delay: 0.08s;
       }
       .menu.open .menu-circle::before {
-        transition-delay: 0.16s;
+        transition-delay: 0.22s;
       }
       .menu-in {
         position: absolute;
@@ -621,8 +623,8 @@
           display: block;
           position: absolute;
           left: var(--pad);
-          width: 30%;
-          font-size: 7rem;
+          width: 34%;
+          font-size: 22vw;
           pointer-events: none;
         }
         .num-roll-in {
@@ -632,9 +634,9 @@
           height: 1em;
           margin-top: -0.1em;
           overflow: hidden;
-          font: 300 1em/1 var(--mono);
+          font: 400 1em/1 var(--mono);
           letter-spacing: 0;
-          color: #9b9b95;
+          color: #a29e9a;
         }
         .nr-fix,
         .nr-strip i {
@@ -808,9 +810,14 @@
       .num {
         position: sticky;
         top: 20vh;
-        font: 300 7rem/0.8 var(--mono);
+        font: 400 7rem/0.8 var(--mono);
         letter-spacing: 0;
-        color: #9b9b95;
+        color: #a29e9a;
+      }
+      @media (min-width: 861px) {
+        .num {
+          font-size: 22vw;
+        }
       }
       .media {
         --py: 0px;
@@ -951,16 +958,58 @@
         margin-top: 0;
       }
 
-      /* about (opens with the big words) */
-      .about .words {
-        grid-column: 1 / -1;
-        margin: 0 0 4.5rem;
+      /* skills (also the start of About, like the original) */
+      .skills {
+        padding: 4rem var(--pad) 4rem;
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: 3rem;
+        align-items: end;
+      }
+      .words {
         font-size: clamp(2.2rem, 6.67vw, 6rem);
+      }
+      .skills h2 {
+        margin: 0 0 2rem;
+        font-size: clamp(2.4rem, 6.25vw, 5.6rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        text-align: center;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .cols h4 {
+        margin: 0 0 0.8rem;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+      .cols ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        color: var(--dim);
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 500;
+      }
+      .cols li {
+        padding: 0.12rem 0;
+        transition:
+          color 0.3s,
+          transform 0.3s;
+      }
+      .cols li:hover {
+        color: #fff;
+        transform: translateX(5px);
       }
 
       /* about */
       .about {
-        padding: 4rem var(--pad) 5rem;
+        padding: 3rem var(--pad) 5rem;
         display: grid;
         grid-template-columns: 34% 1fr;
         gap: 1.5rem;
@@ -1015,7 +1064,7 @@
         color: var(--bone);
       }
       .card {
-        max-width: 30rem;
+        max-width: 36rem;
         margin: 2.5rem auto 0;
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.09);
@@ -1026,7 +1075,7 @@
       .card h3 {
         margin: 0 0 1.2rem;
         text-align: center;
-        font-size: 1.25rem;
+        font-size: clamp(1.4rem, 2.22vw, 2rem);
         font-weight: 500;
         letter-spacing: 0;
       }
@@ -1036,12 +1085,12 @@
       .field input,
       .field textarea {
         width: 100%;
-        font: 400 0.9rem var(--mono);
+        font: 400 clamp(1rem, 1.39vw, 1.25rem) var(--mono);
         color: var(--bone);
         background: rgba(255, 255, 255, 0.07);
         border: 1px solid transparent;
         border-radius: 8px;
-        padding: 0.85rem 1rem;
+        padding: 0.75rem 1rem;
         transition:
           border-color 0.3s,
           background 0.3s;
@@ -1068,7 +1117,7 @@
         border: 0;
         border-radius: 8px;
         padding: 0.9rem;
-        font: 600 0.95rem var(--sans);
+        font: 600 1rem var(--sans);
         cursor: pointer;
         transition:
           transform 0.3s,
@@ -1116,8 +1165,10 @@
       }
       .foot h4 {
         margin: 0 0 0.9rem;
-        font-size: 1.05rem;
-        font-weight: 600;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #c9c9c3;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 700;
       }
       .foot ul {
         list-style: none;
@@ -1125,7 +1176,9 @@
         padding: 0;
       }
       .foot li {
-        padding: 0.15rem 0;
+        padding: 0.25rem 0;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 500;
       }
       .foot a {
         text-decoration: none;
@@ -1140,7 +1193,7 @@
       }
       .clock b {
         display: block;
-        font: 400 0.85rem var(--mono);
+        font: 500 clamp(0.85rem, 1.11vw, 1rem) var(--mono);
         color: var(--muted);
         margin-top: 0.3rem;
       }
@@ -1150,7 +1203,7 @@
         align-items: center;
         margin-top: 4rem;
         color: var(--muted);
-        font-size: 0.85rem;
+        font-size: clamp(0.85rem, 1.11vw, 1rem);
       }
       .up {
         width: 3.4rem;
@@ -1207,13 +1260,13 @@
           font-size: clamp(2.6rem, 12vw, 4.5rem);
         }
         .menu-circle {
-          width: 90vw;
-          height: 90vw;
-          right: -45vw;
-          top: -45vw;
+          width: 100vw;
+          height: 100vw;
+          right: -50vw;
+          top: -48vw;
         }
         .num {
-          font-size: 3.5rem;
+          font-size: 6.5rem;
         }
         .avail b {
           font-size: 3.5rem;
@@ -1253,12 +1306,13 @@
           padding-bottom: 0.4rem;
         }
         .work,
-        .about {
+        .about,
+        .skills {
           grid-template-columns: 1fr;
         }
         .num {
           position: static;
-          font-size: 3.5rem;
+          font-size: 6.5rem;
           margin-bottom: 0.5rem;
         }
         .work.solo .info {
@@ -1353,7 +1407,7 @@
           padding: 2rem var(--pad) 2.75rem;
         }
         .num {
-          font-size: 3rem;
+          font-size: 5.5rem;
         }
         .media {
           aspect-ratio: 4/3;
@@ -1377,8 +1431,19 @@
         .statement {
           font-size: 1.5rem;
         }
-        .about .words {
-          margin-bottom: 2.5rem;
+        .skills {
+          padding: 3rem var(--pad);
+          gap: 2rem;
+        }
+        .skills .words {
+          font-size: 2.6rem;
+        }
+        .skills h2 {
+          text-align: left;
+        }
+        .cols {
+          grid-template-columns: 1fr 1fr;
+          gap: 1.25rem 1rem;
         }
         .copy {
           margin-top: 2rem;
@@ -1763,10 +1828,55 @@
         </article>
       </section>
 
-      <section class="about" id="about">
+      <section class="skills" id="about">
         <p class="big words reveal">
           Developer<br />Problem solver<br />Creator/
         </p>
+        <div class="reveal" style="--d: 0.15s">
+          <h2>Skills</h2>
+          <div class="cols">
+            <div>
+              <h4>Languages &amp; Tools</h4>
+              <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>TypeScript</li>
+                <li>Python</li>
+                <li>C++</li>
+                <li>SQL Server</li>
+                <li>Git</li>
+                <li>GitHub</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Frameworks &amp; Libraries</h4>
+              <ul>
+                <li>React.js</li>
+                <li>Bootstrap</li>
+                <li>Responsive Design</li>
+                <li>Pandas</li>
+                <li>NumPy</li>
+                <li>Scikit-learn</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Core Concepts</h4>
+              <ul>
+                <li>Data Structures</li>
+                <li>Algorithms</li>
+                <li>Dynamic Programming</li>
+                <li>OOP</li>
+                <li>Database Design</li>
+                <li>LINQ</li>
+                <li>Machine Learning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" id="about-text">
         <div>
           <span class="label reveal">(About)</span>
           <div class="facts reveal" style="--d: 0.1s">
@@ -2022,7 +2132,7 @@
 
         function setupRoll() {
           const targets = document.querySelectorAll(
-            ".hero-top nav a, .pill, .links a",
+            ".hero-top nav a, .pill, .links a, .cols li",
           );
           targets.forEach((el) => {
             if (el.children.length || !el.textContent.trim()) return;
@@ -2341,7 +2451,7 @@
           if (prefersReducedMotion || !("IntersectionObserver" in window))
             return;
           const items = document.querySelectorAll(
-            ".service h3, .info h3, .about .words",
+            ".service h3, .info h3",
           );
           const pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
           function run(el) {
@@ -2399,4 +2509,4 @@
       })();
     </script>
   </body>
-</html>
+  </html>
