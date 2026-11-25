@@ -569,6 +569,14 @@
         letter-spacing: 0;
         line-height: 1.1;
       }
+      /* keep the pinned stack intact when the list ends: rows 1 and 2 get
+         extra height so all three rows are released together, in order */
+      @media (min-width: 861px) {
+        .service {
+          min-height: calc(19rem + (2 - var(--i)) * var(--h));
+          padding-bottom: calc(2rem + (2 - var(--i)) * var(--h));
+        }
+      }
       .service p {
         margin: 1rem 0 1.6rem;
         max-width: 21rem;
@@ -1020,7 +1028,6 @@
         transform: translateY(-4px);
       }
 
-      .hero-stats,
       .pill-work {
         display: none;
       }
@@ -1124,26 +1131,6 @@
         .pill-work {
           display: inline-block;
           margin: 0.6rem 0 0 !important;
-        }
-        .hero-stats {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.5rem;
-          margin: 0;
-          padding: 1rem 0;
-          border-top: 1px solid rgba(18, 18, 18, 0.25);
-          border-bottom: 1px solid rgba(18, 18, 18, 0.25);
-        }
-        .hero-stats dt {
-          font-size: 1.75rem;
-          font-weight: 600;
-          line-height: 1;
-        }
-        .hero-stats dd {
-          margin: 0.35rem 0 0;
-          font: 400 0.7rem var(--mono);
-          color: var(--muted);
-          text-transform: uppercase;
         }
         :root {
           --pad: 1rem;
@@ -1360,11 +1347,6 @@
             <a class="pill" href="./Mohab_Ahmed_CV.pdf" download>DOWNLOAD CV ↓</a>
             <a class="pill pill-work" href="#works">VIEW MY WORK ↓</a>
           </div>
-          <dl class="hero-stats">
-            <div><dt>3</dt><dd>Projects</dd></div>
-            <div><dt>2028</dt><dd>CS, Ain Shams</dd></div>
-            <div><dt>2025</dt><dd>Front-End Diploma</dd></div>
-          </dl>
           <div class="avail">
             <span class="label">Available for work</span><b>Nov’26</b>
           </div>
@@ -2084,6 +2066,22 @@
           window.addEventListener("keydown", (event) => {
             if (event.key === "Escape") setOpen(false);
           });
+          // Home links: the hero is pinned, so a plain #top anchor does not
+          // scroll. Use the same scroll-to-top as the back-to-top button.
+          document.addEventListener("click", (event) => {
+            if (!(event.target instanceof Element)) return;
+            const home = event.target.closest('a[href="#top"]');
+            if (!home) return;
+            event.preventDefault();
+            setOpen(false);
+            window.scrollTo({
+              top: 0,
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                .matches
+                ? "instant"
+                : "smooth",
+            });
+          });
         }
 
         function setupReveals() {
@@ -2221,4 +2219,4 @@
       })();
     </script>
   </body>
-</html>
+  </html>
