@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -39,7 +39,7 @@
         --dim: #8a8a84;
         --line: #262625;
         --sans:
-          "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+          "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
         --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
         --pad: 2.5rem;
       }
@@ -188,10 +188,10 @@
         margin-bottom:2.5rem;
       }
       .hero-sub {
-        margin: 1.4rem 0 0;
+        margin: 2rem 0 0;
         text-align: center;
         color: var(--muted);
-        font: 400 0.95rem var(--mono);
+        font: 400 1.2rem var(--mono);
         letter-spacing: 0.02em;
       }
       .hero-l svg {
@@ -203,17 +203,18 @@
       }
       .tagline {
         margin: 0 0 1.4rem;
-        max-width: 28rem;
+        max-width: 36rem;
         color: var(--muted);
-        font-size: 1.5rem;
+        font-size: 2rem;
+        line-height: 1.25;
       }
       .pill {
         display: inline-block;
         background: var(--ink);
         color: var(--paper);
         font-weight: 600;
-        font-size: 0.9rem;
-        padding: 0.7rem 1.25rem;
+        font-size: 1.05rem;
+        padding: 0.9rem 1.6rem;
         border-radius: 999px;
         text-decoration: none;
         border: 0;
@@ -236,7 +237,7 @@
       .avail b {
         display: block;
         font-weight: 600;
-        font-size: 5rem;
+        font-size: 8rem;
         letter-spacing: 0;
         line-height: 0.95;
         text-transform: uppercase;
@@ -268,11 +269,11 @@
       /* ---------- floating menu ---------- */
       .menu-btn {
         position: fixed;
-        top: 1rem;
-        right: 1rem;
+        top: 1.5rem;
+        right: 1.5rem;
         z-index: 60;
-        width: 3.1rem;
-        height: 3.1rem;
+        width: 4.25rem;
+        height: 4.25rem;
         border-radius: 50%;
         border: 1px solid #8d8d86;
         background: var(--paper);
@@ -293,19 +294,35 @@
       .menu-btn:hover {
         transform: scale(1.08);
       }
-      .menu-btn i {
+      .menu-btn span {
+        position: relative;
         display: block;
-        width: 1.1rem;
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+      .menu-btn i {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        display: block;
+        width: 100%;
         height: 2px;
+        margin-top: -1px;
         background: currentColor;
-        margin: 2px 0;
+        border-radius: 1px;
         transition: transform 0.35s;
       }
+      .menu-btn i:first-child {
+        transform: translateY(-4px);
+      }
+      .menu-btn i:last-child {
+        transform: translateY(4px);
+      }
       .menu-btn[aria-expanded="true"] i:first-child {
-        transform: translateY(2.125px) rotate(45deg);
+        transform: rotate(45deg) scaleX(1.2);
       }
       .menu-btn[aria-expanded="true"] i:last-child {
-        transform: translateY(-2.125px) rotate(-45deg);
+        transform: rotate(-45deg) scaleX(1.2);
       }
       .menu {
         position: fixed;
@@ -319,13 +336,20 @@
         padding: var(--pad);
         visibility: hidden;
         opacity: 0;
+        transform: translateX(100%);
         transition:
-          opacity 0.4s,
-          visibility 0.4s;
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.5s,
+          visibility 0s linear 0.9s;
       }
       .menu.open {
         visibility: visible;
         opacity: 1;
+        transform: none;
+        transition:
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.4s,
+          visibility 0s;
         background-color:rgba(0, 0, 0, 0.75);
         backdrop-filter:blur(10px);
       }
@@ -348,6 +372,134 @@
       .menu small {
         margin-top: 2rem;
         color: var(--dim);
+      }
+
+      /* text-roll hover */
+      .roll {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: bottom;
+        padding: 0.06em 0;
+        margin: -0.06em 0;
+      }
+      .roll-a,
+      .roll-b {
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.51, 0.92, 0.24, 1.15);
+      }
+      .roll-b {
+        position: absolute;
+        left: 0;
+        top: 0.06em;
+        transform: translateY(130%);
+      }
+      @media (hover: hover) {
+        a:hover .roll-a,
+        li:hover .roll-a {
+          transform: translateY(-130%);
+        }
+        a:hover .roll-b,
+        li:hover .roll-b {
+          transform: translateY(0);
+        }
+      }
+      /* "View" cursor over project images (mouse only) */
+      .view-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 60;
+        width: 5rem;
+        height: 5rem;
+        margin: -2.5rem 0 0 -2.5rem;
+        border-radius: 50%;
+        background: #fff;
+        color: #111;
+        font: 600 0.8rem var(--sans);
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        opacity: 0;
+        scale: 0.4;
+        transition:
+          opacity 0.25s,
+          scale 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .view-cursor.on {
+        opacity: 1;
+        scale: 1;
+      }
+      .has-view-cursor .media {
+        cursor: none;
+      }
+
+      /* rolling project number (desktop) */
+      .works {
+        position: relative;
+      }
+      .num-roll {
+        display: none;
+      }
+      @media (min-width: 861px) {
+        .works.rolling .work .num {
+          visibility: hidden;
+        }
+        .works.rolling .num-roll {
+          display: block;
+          position: absolute;
+          left: var(--pad);
+          width: 30%;
+          font-size: 7rem;
+          pointer-events: none;
+        }
+        .num-roll-in {
+          position: sticky;
+          top: 20vh;
+          display: flex;
+          height: 1em;
+          margin-top: -0.1em;
+          overflow: hidden;
+          font: 300 1em/1 var(--mono);
+          letter-spacing: 0;
+          color: #9b9b95;
+        }
+        .nr-fix,
+        .nr-strip i {
+          display: block;
+          height: 1em;
+          line-height: 1;
+          font-style: normal;
+        }
+        .nr-strip {
+          display: block;
+          transform: translateY(calc(var(--i, 0) * -1em));
+          transition: transform 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+        }
+      }
+      /* quick facts (About, desktop) */
+      .facts {
+        margin-top: 2.5rem;
+        max-width: 18rem;
+        border-top: 1px solid var(--line);
+      }
+      .facts div {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.95rem;
+      }
+      .facts small {
+        display: block;
+        margin-bottom: 0.15rem;
+        font: 400 0.7rem var(--mono);
+        color: var(--dim);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+      @media (max-width: 860px) {
+        .facts {
+          display: none;
+        }
       }
 
       /* ---------- dark page ---------- */
@@ -868,6 +1020,10 @@
         transform: translateY(-4px);
       }
 
+      .hero-stats,
+      .pill-work {
+        display: none;
+      }
       /* ---------- small screens ---------- */
       @media (max-width: 860px) {
         .hero-top nav {
@@ -876,6 +1032,10 @@
         .menu-btn {
           opacity: 1;
           pointer-events: auto;
+          top: 1rem;
+          right: 1rem;
+          width: 3.6rem;
+          height: 3.6rem;
         }
         .hero-row {
           grid-template-columns: 1fr;
@@ -894,7 +1054,7 @@
           font-size: 3.5rem;
         }
         .avail b {
-          font-size: 2rem;
+          font-size: 3.5rem;
         }
         .service .n,
         .service h3 {
@@ -961,6 +1121,30 @@
         }
       }
       @media (max-width: 560px) {
+        .pill-work {
+          display: inline-block;
+          margin: 0.6rem 0 0 !important;
+        }
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+          margin: 0;
+          padding: 1rem 0;
+          border-top: 1px solid rgba(18, 18, 18, 0.25);
+          border-bottom: 1px solid rgba(18, 18, 18, 0.25);
+        }
+        .hero-stats dt {
+          font-size: 1.75rem;
+          font-weight: 600;
+          line-height: 1;
+        }
+        .hero-stats dd {
+          margin: 0.35rem 0 0;
+          font: 400 0.7rem var(--mono);
+          color: var(--muted);
+          text-transform: uppercase;
+        }
         :root {
           --pad: 1rem;
         }
@@ -972,21 +1156,29 @@
         }
         .name {
           font-size: 2.5rem;
-          margin-top: 2rem;
+          margin-top: 3rem;
         }
         .hero-row {
           padding-top: 1.5rem;
           gap: 1.25rem;
         }
         .tagline {
-          font-size: 1rem;
+          font-size: 1.6rem;
+        }
+        .hero-l svg {
+          width: 3.5rem;
+          height: 3.5rem;
         }
         .hero-sub {
           font-size: 0.78rem;
-          margin-top: 0.9rem;
+          margin-top: 1.1rem;
+        }
+        .pill {
+          font-size: 0.95rem;
+          padding: 0.85rem 1.3rem;
         }
         .avail b {
-          font-size: 1.75rem;
+          font-size: 4.25rem;
         }
         .dark {
           border-radius: 1.25rem 0.1rem 0.1rem;
@@ -1166,7 +1358,13 @@
             </p>
             <a class="pill" href="#contact">CONTACT ↗</a>
             <a class="pill" href="./Mohab_Ahmed_CV.pdf" download>DOWNLOAD CV ↓</a>
+            <a class="pill pill-work" href="#works">VIEW MY WORK ↓</a>
           </div>
+          <dl class="hero-stats">
+            <div><dt>3</dt><dd>Projects</dd></div>
+            <div><dt>2028</dt><dd>CS, Ain Shams</dd></div>
+            <div><dt>2025</dt><dd>Front-End Diploma</dd></div>
+          </dl>
           <div class="avail">
             <span class="label">Available for work</span><b>Nov’26</b>
           </div>
@@ -1468,7 +1666,15 @@
       </section>
 
       <section class="about" id="about">
-        <span class="label reveal">(About)</span>
+        <div>
+          <span class="label reveal">(About)</span>
+          <div class="facts reveal" style="--d: 0.1s">
+            <div><small>Based in</small>Cairo, Egypt</div>
+            <div><small>Focus</small>Frontend: React, TypeScript, Bootstrap</div>
+            <div><small>Also</small>Python, Scikit-learn (machine learning)</div>
+            <div><small>Open to</small>Internships, full-time, part-time</div>
+          </div>
+        </div>
         <div>
           <p class="statement reveal">
             I’m a Computer Science student who loves turning ideas into clean,
@@ -1713,6 +1919,146 @@
           updateScrollEffects();
         }
 
+        function setupRoll() {
+          const targets = document.querySelectorAll(
+            ".hero-top nav a, .pill, .links a, .cols li",
+          );
+          targets.forEach((el) => {
+            if (el.children.length || !el.textContent.trim()) return;
+            const text = el.textContent;
+            el.textContent = "";
+            const wrap = document.createElement("span");
+            wrap.className = "roll";
+            const a = document.createElement("span");
+            a.className = "roll-a";
+            a.textContent = text;
+            const b = document.createElement("span");
+            b.className = "roll-b";
+            b.setAttribute("aria-hidden", "true");
+            b.textContent = text;
+            wrap.append(a, b);
+            el.append(wrap);
+          });
+        }
+
+        function setupViewCursor() {
+          if (prefersReducedMotion) return;
+          if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches)
+            return;
+          const areas = document.querySelectorAll(".media");
+          if (!areas.length) return;
+          const dot = document.createElement("div");
+          dot.className = "view-cursor";
+          dot.setAttribute("aria-hidden", "true");
+          dot.textContent = "View";
+          document.body.append(dot);
+          document.documentElement.classList.add("has-view-cursor");
+          let tx = 0, ty = 0, x = 0, y = 0, running = false, first = true;
+          function loop() {
+            x += (tx - x) * 0.14;
+            y += (ty - y) * 0.14;
+            dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            if (running) requestAnimationFrame(loop);
+          }
+          areas.forEach((area) => {
+            area.addEventListener("mouseenter", (e) => {
+              tx = e.clientX;
+              ty = e.clientY;
+              if (first) { x = tx; y = ty; first = false; }
+              dot.classList.add("on");
+              if (!running) { running = true; requestAnimationFrame(loop); }
+            });
+            area.addEventListener("mousemove", (e) => {
+              tx = e.clientX;
+              ty = e.clientY;
+            });
+            area.addEventListener("mouseleave", () => {
+              dot.classList.remove("on");
+              running = false;
+              first = true;
+            });
+          });
+        }
+
+        function setupNumRoll() {
+          const section = document.getElementById("works");
+          const works = section ? [...section.querySelectorAll(".work")] : [];
+          const nums = works.map((w) => w.querySelector(".num"));
+          if (!section || works.length < 2 || nums.some((n) => !n)) return;
+          const wide = window.matchMedia("(min-width: 861px)");
+          const labels = nums.map((n) => n.textContent.trim());
+          const roll = document.createElement("div");
+          roll.className = "num-roll";
+          roll.setAttribute("aria-hidden", "true");
+          const inner = document.createElement("div");
+          inner.className = "num-roll-in";
+          const fix = document.createElement("span");
+          fix.className = "nr-fix";
+          fix.textContent = labels[0].slice(0, -1);
+          const win = document.createElement("span");
+          win.style.overflow = "hidden";
+          win.style.display = "block";
+          win.style.height = "1em";
+          const strip = document.createElement("span");
+          strip.className = "nr-strip";
+          labels.forEach((l) => {
+            const d = document.createElement("i");
+            d.textContent = l.slice(-1);
+            strip.append(d);
+          });
+          win.append(strip);
+          inner.append(fix, win);
+          roll.append(inner);
+          section.append(roll);
+
+          function layout() {
+            const on = wide.matches;
+            section.classList.toggle("rolling", on);
+            if (!on) return;
+            const first = works[0];
+            const last = works[works.length - 1];
+            const top =
+              first.offsetTop + parseFloat(getComputedStyle(first).paddingTop);
+            const bottom =
+              last.offsetTop +
+              last.offsetHeight -
+              parseFloat(getComputedStyle(last).paddingBottom);
+            roll.style.top = top + "px";
+            roll.style.height = Math.max(bottom - top, 0) + "px";
+          }
+          function update() {
+            let idx = 0;
+            works.forEach((w, i) => {
+              if (w.getBoundingClientRect().top <= window.innerHeight * 0.5)
+                idx = i;
+            });
+            strip.style.setProperty("--i", String(idx));
+          }
+          let pending = false;
+          window.addEventListener(
+            "scroll",
+            () => {
+              if (pending) return;
+              pending = true;
+              requestAnimationFrame(() => {
+                pending = false;
+                update();
+              });
+            },
+            { passive: true },
+          );
+          window.addEventListener("resize", () => {
+            layout();
+            update();
+          });
+          window.addEventListener("load", () => {
+            layout();
+            update();
+          });
+          layout();
+          update();
+        }
+
         function setupMenu() {
           const menu = document.getElementById("menu");
           const button = document.getElementById("menuBtn");
@@ -1866,6 +2212,9 @@
         prepareProjectImages();
         setupScrollEffects();
         setupMenu();
+        setupRoll();
+        setupViewCursor();
+        setupNumRoll();
         setupReveals();
         setupFooter();
         setupContactForm();
