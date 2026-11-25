@@ -29,6 +29,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+    <script>document.documentElement.classList.add("js");</script>
     <style>
       :root {
         --paper: #e7e7e2;
@@ -81,7 +82,7 @@
         font-family: var(--mono);
       }
       .label {
-        font: 400 0.78rem/1.4 var(--mono);
+        font: 500 clamp(0.78rem, 1.11vw, 1rem) / 1.4 var(--mono);
         text-transform: uppercase;
         letter-spacing: 0.02em;
         color: var(--dim);
@@ -158,7 +159,7 @@
         display: inline-block;
         transform: translateY(108%);
         animation: up 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-        animation-delay: calc(var(--i) * 0.05s + 0.1s);
+        animation-delay: calc(var(--i) * 0.05s + 1.05s);
       }
       @keyframes up {
         to {
@@ -172,7 +173,6 @@
         align-items: end;
         margin-top: auto;
         padding-top: 2rem;
-        animation: rise 1s 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
       }
       @keyframes rise {
         from {
@@ -186,6 +186,66 @@
       }
       .hero-l{
         margin-bottom:2.5rem;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .hero-top {
+        animation: fade 0.9s 1.6s ease both;
+      }
+      .hero-sub {
+        animation: rise 0.9s 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      .hero-l > *,
+      .avail {
+        animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(1.35s + var(--k, 0) * 0.09s);
+      }
+      .hero-l > :nth-child(2) { --k: 1; }
+      .hero-l > :nth-child(3) { --k: 2; }
+      .hero-l > :nth-child(4) { --k: 3; }
+      .hero-l > :nth-child(5) { --k: 4; }
+      .avail { --k: 3; }
+      /* page-load curtain: a cream sheet with a curved top rises over black */
+      .curtain {
+        display: none;
+      }
+      .js .curtain {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: #0a0a0a;
+        pointer-events: none;
+        overflow: hidden;
+        animation: curtainOff 0.01s 1.15s forwards;
+      }
+      .curtain i {
+        position: absolute;
+        left: -10%;
+        right: -10%;
+        bottom: 0;
+        height: 130%;
+        background: var(--paper);
+        border-radius: 50% 50% 0 0 / 14% 14% 0 0;
+        transform: translateY(100%);
+        animation: sheet 1.05s cubic-bezier(0.77, 0, 0.175, 1) 0.1s forwards;
+      }
+      @keyframes sheet {
+        to {
+          transform: translateY(0);
+          border-radius: 0;
+        }
+      }
+      @keyframes curtainOff {
+        to {
+          visibility: hidden;
+        }
       }
       .hero-sub {
         margin: 2rem 0 0;
@@ -209,27 +269,55 @@
         line-height: 1.25;
       }
       .pill {
+        position: relative;
+        overflow: hidden;
         display: inline-block;
         background: var(--ink);
         color: var(--paper);
         font-weight: 600;
-        font-size: 1.05rem;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
         padding: 0.9rem 1.6rem;
         border-radius: 999px;
         text-decoration: none;
         border: 0;
         cursor: pointer;
         font-family: var(--sans);
-        transition:
-          transform 0.3s,
-          background 0.3s;
       }
       .hero-l .pill + .pill {
         margin-left: 0.5rem;
       }
-      .pill:hover {
-        transform: translateY(-3px);
-        background: #2c2c2a;
+      /* hover fill: a grey dome rises from the bottom and flattens */
+      .pfill {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border-radius: inherit;
+      }
+      .pfill i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--muted);
+        border-radius: 15rem 15rem 0 0;
+        transform: translateY(100%);
+        transition:
+          transform 0.5s cubic-bezier(0.77, 0, 0.175, 1),
+          border-radius 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      .pill .roll {
+        position: relative;
+        z-index: 1;
+      }
+      .pill .roll-a,
+      .pill .roll-b {
+        transition-duration: 0.5s;
+        transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      @media (hover: hover) and (min-width: 640px) {
+        .pill:hover .pfill i {
+          transform: none;
+          border-radius: 0;
+        }
       }
       .avail {
         text-align: right;
@@ -328,50 +416,134 @@
         position: fixed;
         inset: 0;
         z-index: 50;
-        background-color:rgba(0, 0, 0, 0.75);
         color: var(--bone);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: var(--pad);
+        background: rgba(8, 8, 7, 0.82);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        overflow: hidden;
         visibility: hidden;
         opacity: 0;
-        transform: translateX(100%);
         transition:
-          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-          opacity 0.5s,
-          visibility 0s linear 0.9s;
+          opacity 0.45s,
+          visibility 0s linear 0.6s;
       }
       .menu.open {
         visibility: visible;
         opacity: 1;
-        transform: none;
         transition:
-          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
           opacity 0.4s,
           visibility 0s;
-        background-color:rgba(0, 0, 0, 0.75);
-        backdrop-filter:blur(10px);
       }
-      .menu a {
+      .menu-circle,
+      .menu-circle::before {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      .menu-circle {
+        width: 42vw;
+        height: 42vw;
+        right: -23.5vw;
+        top: -19vw;
+        background: #3a3a37;
+      }
+      .menu-circle::before {
+        content: "";
+        width: 118%;
+        height: 118%;
+        left: -9%;
+        top: -2%;
+        background: #262624;
+        z-index: -1;
+        transition-delay: 0.05s;
+      }
+      .menu.open .menu-circle,
+      .menu.open .menu-circle::before {
+        transform: scale(1);
+        transition-duration: 0.9s;
+        transition-delay: 0.08s;
+      }
+      .menu.open .menu-circle::before {
+        transition-delay: 0.16s;
+      }
+      .menu-in {
+        position: absolute;
+        left: 54%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44%;
+      }
+      .menu-links a {
         display: block;
+        overflow: hidden;
         text-decoration: none;
-        font-size: 3.5rem;
+        font-size: clamp(3rem, 5.3vw, 6.2rem);
         font-weight: 600;
-        letter-spacing: 0;
-        line-height: 1.05;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
         text-transform: uppercase;
+        transition: opacity 0.3s;
+      }
+      .menu-links a span {
+        display: block;
+        transform: translateY(105%);
+        transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      .menu.open .menu-links a span {
+        transform: none;
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: calc(0.3s + var(--k) * 0.07s);
+      }
+      .menu-links a:nth-child(1) { --k: 0; }
+      .menu-links a:nth-child(2) { --k: 1; }
+      .menu-links a:nth-child(3) { --k: 2; }
+      .menu-links a:nth-child(4) { --k: 3; }
+      .menu-links a:nth-child(5) { --k: 4; }
+      @media (hover: hover) {
+        .menu-links:hover a {
+          opacity: 0.35;
+        }
+        .menu-links:hover a:hover {
+          opacity: 1;
+        }
+      }
+      .menu-info {
+        margin-top: clamp(2rem, 6vh, 4rem);
+        opacity: 0;
+        transform: translateY(14px);
         transition:
-          color 0.3s,
-          padding 0.3s;
+          opacity 0.3s,
+          transform 0.3s;
       }
-      .menu a:hover {
-        color: #fff;
-        padding-left: 1rem;
+      .menu.open .menu-info {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity 0.7s 0.75s,
+          transform 0.7s 0.75s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      .menu small {
-        margin-top: 2rem;
+      .mlabel {
+        display: block;
         color: var(--dim);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+      .menu-info a {
+        font: 400 clamp(0.9rem, 1.05vw, 1.05rem) var(--mono);
+        text-decoration: none;
+      }
+      .menu-info a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .msoc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1.1rem;
+        margin-top: 1.4rem;
       }
 
       /* text-roll hover */
@@ -527,7 +699,12 @@
         padding: 0 var(--pad);
       }
       .sec-top .big {
-        font-size: 5rem;
+        font-size: clamp(3.5rem, 8.13vw, 7.3rem);
+      }
+      @media (min-width: 861px) {
+        .works .sec-top .big {
+          font-size: clamp(3.5rem, 6.25vw, 5.6rem);
+        }
       }
       .intro {
         display: grid;
@@ -539,65 +716,71 @@
       .intro p {
         margin: 0;
         color: var(--bone);
-        font-size: 1.02rem;
-        max-width: 24rem;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 500;
+        max-width: 40ch;
       }
 
-      /* services (rows stack as you scroll) */
+      /* services (rows stack as you scroll, like the reference) */
       .services {
         padding: 5rem 0 3rem;
       }
       .list {
+        --fs: clamp(1.6rem, 3.95vw, 3.55rem);
+        --hh: calc(var(--fs) + 2.5rem);
         margin-top: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
       }
       .service {
-        --h: 4.6rem;
         position: sticky;
-        top: calc(var(--i) * var(--h));
+        top: calc(20vh + var(--i) * var(--hh));
+        margin-bottom: calc(8rem + (2 - var(--i)) * var(--hh));
         background: var(--black);
-        border-top: 1px solid var(--line);
+        border-top: 1px solid #34332f;
         display: grid;
         grid-template-columns: 43% 1fr;
-        padding: 1.1rem var(--pad) 2rem;
-        min-height: 19rem;
+        padding: 1.25rem var(--pad) 2.5rem;
+        min-height: 29rem;
+      }
+      .service:last-child {
+        position: relative;
+        top: auto;
       }
       .service .n,
       .service h3 {
         margin: 0;
-        font-size: 1.6rem;
+        padding-bottom: 1.25rem;
+        font-size: var(--fs);
         font-weight: 600;
-        letter-spacing: 0;
-        line-height: 1.1;
-      }
-      /* keep the pinned stack intact when the list ends: rows 1 and 2 get
-         extra height so all three rows are released together, in order */
-      @media (min-width: 861px) {
-        .service {
-          min-height: calc(19rem + (2 - var(--i)) * var(--h));
-          padding-bottom: calc(2rem + (2 - var(--i)) * var(--h));
-        }
+        letter-spacing: -0.025em;
+        line-height: 1;
       }
       .service p {
-        margin: 1rem 0 1.6rem;
-        max-width: 21rem;
-        color: var(--dim);
-        font-size: 0.95rem;
+        margin: 0 0 1.8rem;
+        max-width: 40ch;
+        color: #a29e9a;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
+        font-weight: 500;
+        line-height: 1.32;
       }
       .mini {
         list-style: none;
         margin: 0;
         padding: 0;
-        max-width: 34rem;
+        max-width: 40rem;
       }
       .mini li {
         display: flex;
         gap: 1.1rem;
         align-items: baseline;
         border-top: 1px solid var(--line);
-        padding: 0.65rem 0;
-        font-size: 1.05rem;
+        padding: 0.7rem 0;
+        font-size: clamp(1rem, 1.39vw, 1.25rem);
         font-weight: 500;
         letter-spacing: 0;
+        color: #a29e9a;
         transition:
           padding 0.35s,
           color 0.35s;
@@ -607,7 +790,7 @@
         color: #fff;
       }
       .mini i {
-        font: 400 0.72rem var(--mono);
+        font: 400 0.8rem var(--mono);
         color: var(--dim);
       }
 
@@ -672,14 +855,14 @@
       }
       .info h3 {
         margin: 0.15rem 0 0.8rem;
-        font: 500 clamp(1.3rem, 2vw, 1.7rem)/1.1 var(--mono);
+        font: 500 clamp(1.5rem, 2.96vw, 2.66rem) / 1.1 var(--mono);
         letter-spacing: 0;
       }
       .info p {
         margin: 0 0 1rem;
         color: var(--dim);
         max-width: 30rem;
-        font-size: 0.98rem;
+        font-size: 1.05rem;
       }
       .info .detail {
         margin: 0 0 1rem;
@@ -768,62 +951,23 @@
         margin-top: 0;
       }
 
-      /* skills */
-      .skills {
-        padding: 4rem var(--pad) 4rem;
-        display: grid;
-        grid-template-columns: 1.05fr 1fr;
-        gap: 3rem;
-        align-items: end;
-      }
-      .words {
-        font-size: 2.8rem;
-      }
-      .skills h2 {
-        margin: 0 0 1.5rem;
-        font-size: 2.2rem;
-        font-weight: 600;
-        letter-spacing: 0;
-      }
-      .cols {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-      }
-      .cols h4 {
-        margin: 0 0 0.8rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        letter-spacing: 0;
-      }
-      .cols ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        color: var(--dim);
-        font-size: 0.9rem;
-      }
-      .cols li {
-        padding: 0.12rem 0;
-        transition:
-          color 0.3s,
-          transform 0.3s;
-      }
-      .cols li:hover {
-        color: #fff;
-        transform: translateX(5px);
+      /* about (opens with the big words) */
+      .about .words {
+        grid-column: 1 / -1;
+        margin: 0 0 4.5rem;
+        font-size: clamp(2.2rem, 6.67vw, 6rem);
       }
 
       /* about */
       .about {
-        padding: 3rem var(--pad) 5rem;
+        padding: 4rem var(--pad) 5rem;
         display: grid;
         grid-template-columns: 34% 1fr;
         gap: 1.5rem;
       }
       .statement {
         margin: 0;
-        font-size: 1.8rem;
+        font-size: clamp(1.6rem, 2.22vw, 2.2rem);
         font-weight: 500;
         letter-spacing: 0;
         line-height: 1.15;
@@ -840,8 +984,8 @@
       .copy p {
         margin: 0 0 1rem;
         color: var(--dim);
-        font-size: 0.98rem;
-        max-width: 26rem;
+        font-size: clamp(1rem, 1.25vw, 1.15rem);
+        max-width: 28rem;
       }
       .edu {
         margin-top: 1.5rem;
@@ -851,7 +995,7 @@
       .edu div {
         padding: 0.6rem 0;
         border-bottom: 1px solid var(--line);
-        font-size: 0.95rem;
+        font-size: 1.05rem;
       }
       .edu span {
         display: block;
@@ -867,7 +1011,7 @@
         border-radius: 0 0 1.5rem 1.5rem;
       }
       .contact .big {
-        font-size: 4.5rem;
+        font-size: clamp(3.5rem, 8.13vw, 7.3rem);
         color: var(--bone);
       }
       .card {
@@ -1054,8 +1198,19 @@
         .sec-top .big {
           font-size: 3.5rem;
         }
-        .menu a {
-          font-size: 3rem;
+        .menu-in {
+          left: 1.25rem;
+          right: 1.25rem;
+          width: auto;
+        }
+        .menu-links a {
+          font-size: clamp(2.6rem, 12vw, 4.5rem);
+        }
+        .menu-circle {
+          width: 90vw;
+          height: 90vw;
+          right: -45vw;
+          top: -45vw;
         }
         .num {
           font-size: 3.5rem;
@@ -1065,13 +1220,7 @@
         }
         .service .n,
         .service h3 {
-          font-size: 1.5rem;
-        }
-        .skills .words {
-          font-size: 2.4rem;
-        }
-        .skills h2 {
-          font-size: 2rem;
+          font-size: 1.9rem;
         }
         .statement {
           font-size: 1.5rem;
@@ -1093,8 +1242,15 @@
         .service {
           position: static;
           grid-template-columns: 1fr;
-          gap: 0.8rem;
+          gap: 0;
           min-height: 0;
+          margin-bottom: 0;
+        }
+        .list {
+          gap: 0;
+        }
+        .service .n {
+          padding-bottom: 0.4rem;
         }
         .work,
         .about {
@@ -1113,12 +1269,6 @@
         }
         .pills {
           justify-content: flex-start;
-        }
-        .skills {
-          grid-template-columns: 1fr;
-        }
-        .cols {
-          grid-template-columns: 1fr 1fr;
         }
         .copy {
           grid-template-columns: 1fr;
@@ -1190,7 +1340,7 @@
         }
         .service .n,
         .service h3 {
-          font-size: 1.35rem;
+          font-size: 1.75rem;
         }
         .service p,
         .mini li,
@@ -1221,28 +1371,14 @@
           font-size: 0.9rem;
           padding: 0.55rem 0.9rem;
         }
-        .skills {
-          padding: 3rem var(--pad);
-          gap: 2rem;
-        }
-        .skills .words {
-          font-size: 2rem;
-        }
-        .cols {
-          grid-template-columns: 1fr 1fr;
-          gap: 1.25rem 1rem;
-        }
-        .cols h4 {
-          font-size: 0.9rem;
-        }
-        .cols ul {
-          font-size: 0.88rem;
-        }
         .about {
           padding: 2.5rem var(--pad) 3.5rem;
         }
         .statement {
-          font-size: 1.4rem;
+          font-size: 1.5rem;
+        }
+        .about .words {
+          margin-bottom: 2.5rem;
         }
         .copy {
           margin-top: 2rem;
@@ -1284,6 +1420,12 @@
         .js .ch {
           transform: none;
         }
+        .curtain {
+          display: none !important;
+        }
+        .pfill {
+          display: none;
+        }
         .js .reveal {
           opacity: 1;
           transform: none;
@@ -1302,12 +1444,34 @@
     >
       <span><i></i><i></i></span>
     </button>
+    <div class="curtain" aria-hidden="true"><i></i></div>
     <div class="menu" id="menu" role="dialog" aria-label="Menu">
-      <a href="#top">Home</a><a href="#services">Services</a
-      ><a href="#works">Works</a><a href="#skills">Skills</a
-      ><a href="#about">About</a><a href="#contact">Contact</a
-      ><a href="./Mohab_Ahmed_CV.pdf" download>CV</a>
-      <small class="label">Open to internships and jobs</small>
+      <div class="menu-circle" aria-hidden="true"></div>
+      <div class="menu-in">
+        <nav class="menu-links" aria-label="Menu">
+          <a href="#top"><span>Home</span></a
+          ><a href="#services"><span>Services</span></a
+          ><a href="#works"><span>Works</span></a
+          ><a href="#about"><span>About</span></a
+          ><a href="#contact"><span>Contact</span></a>
+        </nav>
+        <div class="menu-info">
+          <span class="mlabel">Email address</span>
+          <a href="mailto:mohabarafat123@gmail.com">mohabarafat123@gmail.com</a>
+          <div class="msoc">
+            <a
+              href="https://www.linkedin.com/in/mohab-ahmed-arafat"
+              target="_blank"
+              rel="noopener"
+              >LinkedIn</a
+            >
+            <a href="https://github.com/M0habAOT" target="_blank" rel="noopener"
+              >Github</a
+            >
+            <a href="./Mohab_Ahmed_CV.pdf" download>CV</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="hero" id="top">
@@ -1599,55 +1763,10 @@
         </article>
       </section>
 
-      <section class="skills" id="skills">
+      <section class="about" id="about">
         <p class="big words reveal">
           Developer<br />Problem solver<br />Creator/
         </p>
-        <div class="reveal" style="--d: 0.15s">
-          <h2>Skills</h2>
-          <div class="cols">
-            <div>
-              <h4>Languages &amp; Tools</h4>
-              <ul>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>TypeScript</li>
-                <li>Python</li>
-                <li>C++</li>
-                <li>SQL Server</li>
-                <li>Git</li>
-                <li>GitHub</li>
-              </ul>
-            </div>
-            <div>
-              <h4>Frameworks &amp; Libraries</h4>
-              <ul>
-                <li>React.js</li>
-                <li>Bootstrap</li>
-                <li>Responsive Design</li>
-                <li>Pandas</li>
-                <li>NumPy</li>
-                <li>Scikit-learn</li>
-              </ul>
-            </div>
-            <div>
-              <h4>Core Concepts</h4>
-              <ul>
-                <li>Data Structures</li>
-                <li>Algorithms</li>
-                <li>Dynamic Programming</li>
-                <li>OOP</li>
-                <li>Database Design</li>
-                <li>LINQ</li>
-                <li>Machine Learning</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="about" id="about">
         <div>
           <span class="label reveal">(About)</span>
           <div class="facts reveal" style="--d: 0.1s">
@@ -1903,7 +2022,7 @@
 
         function setupRoll() {
           const targets = document.querySelectorAll(
-            ".hero-top nav a, .pill, .links a, .cols li",
+            ".hero-top nav a, .pill, .links a",
           );
           targets.forEach((el) => {
             if (el.children.length || !el.textContent.trim()) return;
@@ -1920,6 +2039,13 @@
             b.textContent = text;
             wrap.append(a, b);
             el.append(wrap);
+            if (el.classList.contains("pill")) {
+              const fill = document.createElement("span");
+              fill.className = "pfill";
+              fill.setAttribute("aria-hidden", "true");
+              fill.append(document.createElement("i"));
+              el.prepend(fill);
+            }
           });
         }
 
@@ -2046,7 +2172,7 @@
           const button = document.getElementById("menuBtn");
           if (!menu || !button) return;
 
-          function setOpen(isOpen) {
+          function setOpen(isOpen, withFocus) {
             menu.classList.toggle("open", isOpen);
             button.setAttribute("aria-expanded", String(isOpen));
             button.setAttribute(
@@ -2054,10 +2180,15 @@
               isOpen ? "Close menu" : "Open menu",
             );
             document.body.classList.toggle("lock", isOpen);
+            if (isOpen && withFocus)
+              window.setTimeout(
+                () => menu.querySelector(".menu-links a")?.focus({ preventScroll: true }),
+                50,
+              );
           }
 
-          button.addEventListener("click", () =>
-            setOpen(menu.classList.contains("open") === false),
+          button.addEventListener("click", (event) =>
+            setOpen(menu.classList.contains("open") === false, event.detail === 0),
           );
           menu.addEventListener("click", (event) => {
             if (event.target instanceof Element && event.target.closest("a"))
@@ -2206,6 +2337,54 @@
           });
         }
 
+        function setupScramble() {
+          if (prefersReducedMotion || !("IntersectionObserver" in window))
+            return;
+          const items = document.querySelectorAll(
+            ".service h3, .info h3, .about .words",
+          );
+          const pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+          function run(el) {
+            const nodes = [];
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+              const n = walker.currentNode;
+              if (n.nodeValue.trim()) nodes.push({ n, t: n.nodeValue });
+            }
+            const total = nodes.reduce((sum, o) => sum + o.t.length, 0);
+            const dur = Math.min(1100, 500 + total * 18);
+            const start = performance.now();
+            function frame(now) {
+              const p = Math.min((now - start) / dur, 1);
+              let idx = 0;
+              nodes.forEach((o) => {
+                let out = "";
+                for (const ch of o.t) {
+                  const r = idx++ / total;
+                  out +=
+                    ch === " " || p >= 1 || p > 0.2 + 0.8 * r
+                      ? ch
+                      : pool[(Math.random() * pool.length) | 0];
+                }
+                o.n.nodeValue = out;
+              });
+              if (p < 1) requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+          }
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (!e.isIntersecting) return;
+                io.unobserve(e.target);
+                run(e.target);
+              });
+            },
+            { threshold: 0.6 },
+          );
+          items.forEach((el) => io.observe(el));
+        }
+
         prepareName();
         prepareProjectImages();
         setupScrollEffects();
@@ -2214,9 +2393,10 @@
         setupViewCursor();
         setupNumRoll();
         setupReveals();
+        setupScramble();
         setupFooter();
         setupContactForm();
       })();
     </script>
   </body>
-  </html>
+</html>
